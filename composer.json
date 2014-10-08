@@ -1,0 +1,38 @@
+{
+    "name": "nikolaposa/zf-disqus",
+    "description": "ZF2 module which facilitates integration of Disqus services",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "zf2",
+        "zend",
+        "module",
+        "disqus"
+    ],
+    "homepage": "https://github.com/nikolaposa/ZfDisqus",
+    "authors": [
+        {
+            "name": "Nikola Poša",
+            "email": "posa.nikola@gmail.com",
+            "homepage": "http://www.nikolaposa.in.rs"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zend-view": "2.*",
+        "zendframework/zend-modulemanager": "2.*",
+        "zendframework/zend-servicemanager": "2.*"
+    },
+    "require-dev": {
+        "zendframework/zend-loader": "2.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "ZfDisqus": "src/",
+            "ZfDisqusTest": "test/"
+        },
+        "classmap": [
+            "./"
+        ]
+    }
+}

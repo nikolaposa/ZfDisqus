@@ -114,4 +114,12 @@ class DisqusTest extends PHPUnit_Framework_TestCase
         $this->assertContains(self::SHORTNAME, $inlineScript);
         $this->assertContains('</script>', $inlineScript);
     }
+
+    public function testInvokingWidgetWithCustomShortName()
+    {
+        $config = array('shortname' => 'custom', 'foo' => 'bar');
+        $options = null;
+
+        $this->assertWidgetCall($config, $options);
+    }
 }

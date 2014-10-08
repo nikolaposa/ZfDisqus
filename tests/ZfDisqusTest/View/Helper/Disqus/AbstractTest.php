@@ -26,6 +26,9 @@ abstract class AbstractTest extends PHPUnit_Framework_TestCase
      */
     protected $widget;
 
+    /**
+     * @var View
+     */
     protected $view;
 
     protected function setUp()
@@ -56,7 +59,7 @@ abstract class AbstractTest extends PHPUnit_Framework_TestCase
         $reflection = new \ReflectionObject($this->widget);
         $method = $reflection->getMethod('getScriptName');
         $method->setAccessible(true);
-        
+
         $this->assertContains($method->invoke($this->widget), $script);
     }
 }

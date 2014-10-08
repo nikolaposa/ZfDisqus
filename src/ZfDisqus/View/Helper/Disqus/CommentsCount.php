@@ -35,8 +35,7 @@ class CommentsCount extends AbstractWidget
 
         $label = isset($options['label']) ? $options['label'] : '';
 
-        return '
-            <a href="' . $this->getView()->url($urlOptions['name'], $urlOptions['params'], $urlOptions['options'], $urlOptions['reuseMatchedParams']) . '" '
+        return '<a href="' . $this->getView()->url($urlOptions['name'], $urlOptions['params'], $urlOptions['options'], $urlOptions['reuseMatchedParams']) . '" '
             . $this->htmlAttribs($attribs) . '>'
             . $label
             . '</a>';

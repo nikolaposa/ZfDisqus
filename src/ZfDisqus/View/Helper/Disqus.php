@@ -26,7 +26,7 @@ class Disqus extends AbstractHelper
     protected $shortName;
 
     /**
-     * Whether to append JS code to the InlineScript container.
+     * Whether to append widget JS code to the InlineScript container.
      *
      * @var bool
      */
@@ -139,25 +139,16 @@ class Disqus extends AbstractHelper
      */
     public function __call($method, $args)
     {
-        $widget = $this->findWidget($method);
-
         $html = '';
 
+        $widget = $this->findWidget($method);
+        $widget->setUseInlineScriptContainer($this->getUseInlineScriptContainer());
+
         $config = array_merge(array('shortname' => $this->shortName), (array) array_shift($args));
-        $configScript = $widget->renderScript($config);
-
-        if ($this->useInlineScriptContainer) {
-            $this->getView()->inlineScript()->appendScript($configScript);
-        } else {
-            $html .=
-                '<script type="text/javascript">
-                ' . $configScript . '
-                </script>'
-                . "\n\n";
-        }
-
         $options = (array) array_shift($args);
+
         $html .= $widget->render($options);
+        $html .= "\n\n" . $widget->renderScript($config);
 
         return $html;
     }

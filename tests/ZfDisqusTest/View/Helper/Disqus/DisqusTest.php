@@ -60,66 +60,63 @@ class DisqusTest extends PHPUnit_Framework_TestCase
         $this->helper->foobar(array('test'));
     }
 
+    public function testSettingWidgetSpecificProperties()
+    {
+        $threadMock = $this->getMock('ZfDisqus\View\Helper\Disqus\Thread');
+        $threadMock->expects($this->once())
+            ->method('setUseInlineScriptContainer')
+            ->with($this->helper->getUseInlineScriptContainer());
+
+        $this->helper->getWidgetManager()->setService('thread', $threadMock);
+
+        $this->helper->thread();
+    }
+
     protected function assertWidgetCall($config, $options, $html = '')
     {
         $config = (array) $config;
         $options = (array) $options;
 
         $threadMock = $this->getMock('ZfDisqus\View\Helper\Disqus\Thread');
-        $threadMock->expects($this->once())
-            ->method('renderScript')
-            ->with($this->equalTo($config))
-            ->will($this->returnValue(current($config)));
-
         $renderMock = $threadMock->expects($this->once())->method('render')->with($this->equalTo($options));
         if ($html) {
             $renderMock->will($this->returnValue($html));
         }
+        $threadMock->expects($this->once())
+            ->method('renderScript')
+            ->with($this->equalTo($config))
+            ->will($this->returnValue('<script type="text/javascript">' . current($config) . '</script>'));
 
         $this->helper->getWidgetManager()->setService('thread', $threadMock);
 
         return $this->helper->thread($config, $options);
     }
 
-    public function testInvokingWidgetWithConfigAndRenderingOptions()
+    public function testWidgetCalledWithConfigAndRenderingOptions()
     {
         $config = array('shortname' => self::SHORTNAME, 'foo' => 'bar');
-        $options = null;
+        $options = array('label' => 'Test');
 
         $this->assertWidgetCall($config, $options);
     }
 
-    public function testInvokingWidgetRendersScriptIntoTheInlineScriptContainer()
-    {
-        $this->helper->setUseInlineScriptContainer(false);
-
-        $html = $this->assertWidgetCall(array('shortname' => self::SHORTNAME), null, '<div id="test"></div>');
-
-        $this->assertContains('<script', $html);
-        $this->assertContains('</script>', $html);
-        $this->assertContains('<div id="test"></div>', $html);
-    }
-
-    public function testInvokingWidgetRendersScriptAlongWithHtmlWhenUseInlineScriptFlagIsFalse()
-    {
-        $this->helper->setUseInlineScriptContainer(true);
-
-        $html = $this->assertWidgetCall(array('shortname' => self::SHORTNAME), null, '<div id="test"></div>');
-
-        $this->assertNotContains('<script', $html);
-        $this->assertContains('<div id="test"></div>', $html);
-
-        $inlineScript = (string) $this->helper->getView()->plugin('inlineScript');
-        $this->assertContains('<script', $inlineScript);
-        $this->assertContains(self::SHORTNAME, $inlineScript);
-        $this->assertContains('</script>', $inlineScript);
-    }
-
-    public function testInvokingWidgetWithCustomShortName()
+    public function testWidgetCalledWithShortNameSuppliedOnTheFly()
     {
         $config = array('shortname' => 'custom', 'foo' => 'bar');
         $options = null;
 
         $this->assertWidgetCall($config, $options);
+    }
+
+    public function testWidgetCallRendering()
+    {
+        $config = array('shortname' => self::SHORTNAME, 'foo' => 'bar');
+        $options = array();
+
+        $html = $this->assertWidgetCall($config, $options, '<div id="test"></div>');
+
+        $this->assertContains('<div id="test"></div>', $html);
+        $this->assertContains('<script', $html);
+        $this->assertContains('</script>', $html);
     }
 }

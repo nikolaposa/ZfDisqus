@@ -42,9 +42,9 @@ class Module implements
     {
         return array(
             'factories' => array(
-                'disqus' => function($sm) {
-                    $locator = $sm->getServiceLocator();
-                    $config = $locator->get('Config');
+                'disqus' => function($pm) {
+                    $serviceLocator = $pm->getServiceLocator();
+                    $config = $serviceLocator->get('Config');
 
                     if (!isset($config['disqus']['shortname'])) {
                         throw new \Zend\ServiceManager\Exception\InvalidArgumentException(

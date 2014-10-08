@@ -40,8 +40,20 @@ abstract class AbstractTest extends PHPUnit_Framework_TestCase
         $this->widget->setView($this->view);
     }
 
-    public function testRenderingScript()
+    protected function assertConfig($config, $script)
     {
+        foreach ($config as $key => $value) {
+            if (is_string($value)) {
+                $value = "'$value'";
+            }
+            $this->assertRegexp('/var disqus_' . $key . '\s?=\s?' . $value . '/', $script);
+        }
+    }
+
+    public function testAddingScriptIntoTheInlineScriptContainer()
+    {
+        $this->widget->setUseInlineScriptContainer(true);
+
         $config = array(
             'shortname' => 'test',
             'foo' => 1,
@@ -49,17 +61,52 @@ abstract class AbstractTest extends PHPUnit_Framework_TestCase
 
         $script = $this->widget->renderScript($config);
 
-        foreach ($config as $key => $value) {
-            if (is_string($value)) {
-                $value = "'$value'";
-            }
-            $this->assertRegexp('/var disqus_' . $key . '\s?=\s?' . $value . '/', $script);
-        }
+        $this->assertEquals('', $script);
+
+        $inlineScript = (string) $this->widget->getView()->plugin('inlineScript');
+        $this->assertContains('<script', $inlineScript);
+        $this->assertContains('</script>', $inlineScript);
+        $this->assertConfig($config, $inlineScript);
+    }
+
+    public function testRenderingScriptWhenUseInlineScriptFlagIsFalse()
+    {
+        $this->widget->setUseInlineScriptContainer(false);
+
+        $config = array(
+            'shortname' => 'test',
+            'foo' => true,
+        );
+
+        $script = $this->widget->renderScript($config);
+
+        $this->assertContains('<script', $script);
+        $this->assertContains('</script>', $script);
+        $this->assertConfig($config, $script);
+    }
+
+    public function testAppropriateJsFileLoaded()
+    {
+        $this->widget->setUseInlineScriptContainer(false);
+
+        $script = $this->widget->renderScript(array());
 
         $reflection = new \ReflectionObject($this->widget);
         $method = $reflection->getMethod('getScriptName');
         $method->setAccessible(true);
 
         $this->assertContains($method->invoke($this->widget), $script);
+    }
+
+    public function testScriptRenderedOnlyOnce()
+    {
+        $this->widget->setUseInlineScriptContainer(false);
+
+        $script = $this->widget->renderScript(array());
+        $this->assertContains('<script', $script);
+        $this->assertContains('</script>', $script);
+
+        $this->assertEmpty($this->widget->renderScript(array()));
+        $this->assertEmpty($this->widget->renderScript(array()));
     }
 }

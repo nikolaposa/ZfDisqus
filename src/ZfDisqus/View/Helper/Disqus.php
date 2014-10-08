@@ -40,11 +40,9 @@ class Disqus extends AbstractHelper
     /**
      * @param string $shortName
      */
-    public function __construct($shortName = null)
+    public function __construct($shortName)
     {
-        if ($shortName !== null) {
-            $this->setShortName($shortName);
-        }
+        $this->setShortName($shortName);
     }
 
     /**
@@ -118,7 +116,7 @@ class Disqus extends AbstractHelper
      */
     protected function findWidget($name)
     {
-        $widgets = $this->getPluginManager();
+        $widgets = $this->getWidgetManager();
 
         if (!$widgets->has($name)) {
             throw new Exception\RuntimeException(sprintf(
@@ -141,17 +139,12 @@ class Disqus extends AbstractHelper
      */
     public function __call($method, $args)
     {
-        if ($this->shortName === null) {
-            throw new Exception\RuntimeException('Disqus short name must be provided');
-        }
-
         $widget = $this->findWidget($method);
 
         $html = '';
 
-        $config = array_shift($args) | array();
-        $config['shortname'] = $this->shortName;
-        $configScript = $widget->renderConfig($config);
+        $config = array_merge(array('shortname' => $this->shortName), (array) array_shift($args));
+        $configScript = $widget->renderScript($config);
 
         if ($this->useInlineScriptContainer) {
             $this->getView()->inlineScript()->appendScript($configScript);
@@ -163,7 +156,7 @@ class Disqus extends AbstractHelper
                 . "\n\n";
         }
 
-        $options = array_shift($args) | array();
+        $options = (array) array_shift($args);
         $html .= $widget->render($options);
 
         return $html;

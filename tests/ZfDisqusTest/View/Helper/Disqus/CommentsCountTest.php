@@ -31,7 +31,7 @@ class CommentsCountTest extends AbstractTest
     {
         parent::setUp();
 
-        $this->urlHelper = $this->getMock('\\Zend\\View\\Helper\\Url');
+        $this->urlHelper = $this->getMock('Zend\View\Helper\Url');
         $this->view->getHelperPluginManager()->setService('url', $this->urlHelper);
     }
 

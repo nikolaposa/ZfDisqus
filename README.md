@@ -1,7 +1,7 @@
 # ZfDisqus
 
 ZfDisqus is a [Zend Framework 2](http://framework.zend.com) module which facilitates integration of
-Disqus services (https://disqus.com/websites).
+[Disqus](https://disqus.com/websites) widgets.
 
 ## Installation
 
@@ -24,6 +24,18 @@ $ php composer.phar update
 
 For more information about composer itself, please refer to [getcomposer.org](http://getcomposer.org/).
 
+### Provide your Disqus *shortname* through configuration:
+
+```php
+<?php
+return array(
+    'disqus' => array(
+        'shortname' => 'your_disqus_shortname'
+    ),
+    // ...
+);
+```
+
 ### Enable the module in your `application.config.php`:
 
 ```php
@@ -39,5 +51,29 @@ return array(
 
 ## Usage
 
+This module provides a `Disqus` view helper (`ZfDisqus\View\Helper\Disqus`) which is a main entry point for invoking concrete Disqus widgets.
+Two widgets are currently supported:
+* ***Thread*** (`ZfDisqus\View\Helper\Disqus\Thread`) - renders the Disqus comments thread
+* ***CommentsCount*** (`ZfDisqus\View\Helper\Disqus\CommentsCount`) - renders link along with number of comments for some page ([more info](https://help.disqus.com/customer/portal/articles/565624-tightening-your-disqus-integration))
 
+### Examples
 
+```php
+echo $this->disqus()->thread(array('title' => 'My article', 'identifier' => 'article1'));
+
+echo $this->disqus()->commentsCount(
+    array(),
+    array(
+        //Options for the Url helper which is internally used for rendering actual URL
+        'url' => array(
+            'name' => 'article/view',
+            'params' => array('id' => 1),
+            'options' => array('query' => array('p' => 3)),
+            'reuseMatchedParams' => true
+        ),
+        //options specific to the comments count widget itself
+        'identifier' => 'article1',
+        'label' => 'Comments'
+    )
+);
+```

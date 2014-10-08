@@ -11,6 +11,8 @@
 namespace ZfDisqus\View\Helper\Disqus;
 
 /**
+ * Renders Disqus comments thread.
+ * 
  * @author Nikola Posa <posa.nikola@gmail.com>
  */
 class Thread extends AbstractWidget

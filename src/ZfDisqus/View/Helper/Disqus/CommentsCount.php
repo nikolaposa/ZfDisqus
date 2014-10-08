@@ -11,6 +11,8 @@
 namespace ZfDisqus\View\Helper\Disqus;
 
 /**
+ * Renders comments count link.
+ * 
  * @author Nikola Posa <posa.nikola@gmail.com>
  */
 class CommentsCount extends AbstractWidget

@@ -53,8 +53,8 @@ return array(
 
 This module provides a `Disqus` view helper (`ZfDisqus\View\Helper\Disqus`) which is a main entry point for invoking concrete Disqus widgets.
 Two widgets are currently supported:
-* ***Thread*** (`ZfDisqus\View\Helper\Disqus\Thread`) - renders the Disqus comments thread
-* ***CommentsCount*** (`ZfDisqus\View\Helper\Disqus\CommentsCount`) - renders link along with number of comments for some page ([more info](https://help.disqus.com/customer/portal/articles/565624-tightening-your-disqus-integration))
+* **Thread** (`ZfDisqus\View\Helper\Disqus\Thread`) - renders the Disqus comments thread
+* **CommentsCount** (`ZfDisqus\View\Helper\Disqus\CommentsCount`) - renders link along with number of comments for some page ([more info](https://help.disqus.com/customer/portal/articles/565624-tightening-your-disqus-integration))
 
 ### Examples
 
@@ -62,7 +62,7 @@ Two widgets are currently supported:
 echo $this->disqus()->thread(array('title' => 'My article', 'identifier' => 'article1'));
 
 echo $this->disqus()->commentsCount(
-    array(),
+    array('shortname' => 'custom_shortname'), //JS config options if any
     array(
         //Options for the Url helper which is internally used for rendering actual URL
         'url' => array(

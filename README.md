@@ -56,6 +56,11 @@ Two widgets are currently supported:
 * **Thread** (`ZfDisqus\View\Helper\Disqus\Thread`) - renders the Disqus comments thread
 * **CommentsCount** (`ZfDisqus\View\Helper\Disqus\CommentsCount`) - renders link along with number of comments for some page ([more info](https://help.disqus.com/customer/portal/articles/565624-tightening-your-disqus-integration))
 
+IMPORTANT: By default, this module uses `InlineScript` container for the purpose of loading necessary JS code, thus you must invoke that helper in your layout:
+```php
+echo $this->inlineScript();
+```
+
 ### Examples
 
 ```php

@@ -9,10 +9,8 @@
  */
 
 return array(
-    'view_helpers' => array(
-        'invokables' => array(
-            'disqus' => 'ZfDisqus\View\Helper\Disqus',
-        ),
+    'disqus' => array(
+        'shortname' => null //Enter your Disqus "shortname" here
     )
 );
 

@@ -37,7 +37,7 @@ class DisqusTest extends \PHPUnit_Framework_TestCase
 
         $html = $disqus->thread();
 
-        $html .= ' ' . $disqus->init();
+        $html .= ' ' . $disqus();
 
         $this->assertContains('<script', $html);
         $this->assertContains('shortname', $html);

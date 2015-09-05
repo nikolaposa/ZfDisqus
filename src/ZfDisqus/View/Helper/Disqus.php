@@ -80,7 +80,8 @@ final class Disqus extends AbstractHelper
      */
     public function __invoke(array $config = array())
     {
-        return $this->disqusHelper($config);
+        $disqusHelper = $this->disqusHelper;
+        return $disqusHelper($config);
     }
 
     /**

@@ -2,29 +2,26 @@
 
 [![Build Status](https://travis-ci.org/nikolaposa/ZfDisqus.svg?branch=master)](https://travis-ci.org/nikolaposa/ZfDisqus)
 
-ZfDisqus is a [Zend Framework 2](http://framework.zend.com) module which facilitates integration of
-[Disqus](https://disqus.com/websites) widgets.
+ZfDisqus is a [Zend Framework 2](http://framework.zend.com) integration of a [DisqusHelper][disqus-helper],
+library which facilitates integration of [Disqus](https://disqus.com/websites) widgets.
 
 ## Installation
 
-You can install this module either by cloning this project into your `./vendor/` directory,
-or using composer, which is more recommended:
-
-Add this project into your composer.json:
+Install the library using [composer](http://getcomposer.org/). Add the following to your `composer.json`:
 
 ```json
-"require": {
-    "nikolaposa/zf-disqus": "1.*"
+{
+    "require": {
+        "nikolaposa/zf-disqus": "2.*"
+    }
 }
 ```
 
-Tell composer to download ZfDisqus by running update command:
+Tell composer to download ZfDisqus by running `install` command:
 
 ```bash
-$ php composer.phar update
+$ php composer.phar install
 ```
-
-For more information about composer itself, please refer to [getcomposer.org](http://getcomposer.org/).
 
 ### Provide your Disqus *shortname* through configuration:
 
@@ -33,6 +30,7 @@ For more information about composer itself, please refer to [getcomposer.org](ht
 return array(
     'disqus' => array(
         'shortname' => 'your_disqus_shortname'
+        //any other Disqus config can be provided here
     ),
     // ...
 );
@@ -53,34 +51,45 @@ return array(
 
 ## Usage
 
-This module provides a `Disqus` view helper (`ZfDisqus\View\Helper\Disqus`) which is a main entry point for invoking concrete Disqus widgets.
-Two widgets are currently supported:
-* **Thread** (`ZfDisqus\View\Helper\Disqus\Thread`) - renders the Disqus comments thread
-* **CommentsCount** (`ZfDisqus\View\Helper\Disqus\CommentsCount`) - renders link along with number of comments for some page ([more info](https://help.disqus.com/customer/portal/articles/565624-tightening-your-disqus-integration))
-
-IMPORTANT: By default, this module uses `InlineScript` container for the purpose of loading necessary JS code, thus you must invoke that helper in your layout:
-```php
-echo $this->inlineScript();
-```
+This module provides a `Disqus` view helper (`ZfDisqus\View\Helper\Disqus`) which is essentially a wrapper around the [DisqusHelper][disqus-helper].
+Refer to the DisqusHelper project documenation for more information about available widget methods.
 
 ### Examples
 
-```php
-echo $this->disqus()->thread(array('title' => 'My article', 'identifier' => 'article1'));
+Typical example would be in some application which uses layouts. Widgets should be rendered in specific templates,
+while Disqus assets will be rendered somewhere in the layout, most commonly within the head or tail sections:
 
-echo $this->disqus()->commentsCount(
-    array('shortname' => 'custom_shortname'), //JS config options if any
-    array(
-        //Options for the Url helper which is internally used for rendering actual URL
-        'url' => array(
-            'name' => 'article/view',
-            'params' => array('id' => 1),
-            'options' => array('query' => array('p' => 3)),
-            'reuseMatchedParams' => true
-        ),
-        //options specific to the comments count widget itself
-        'identifier' => 'article1',
-        'label' => 'Comments'
-    )
-);
+**Layout**
+```html
+<!-- layout.phtml -->
+<html>
+    <head>
+        <title>Blog</title>
+    </head>
+
+    <body>
+        <?php echo $this->content; ?>
+
+        <!-- Disqus init invokation -->
+        <?php echo $this->disqus()->init(); ?>
+    </body>
+</html>
 ```
+
+**Template**
+```html
+<!-- post.phtml -->
+<article>
+    <h1><?php echo $this->escapeHtml($this->post->title); ?></h1>
+
+    <?php echo $this->post->body; ?>
+</article>
+
+<div>
+    <h2>Comments:</h2>
+    <!-- Thread widget -->
+    <?php echo $this->disqus()->thread(array('title' => $this->post->title, 'identifier' => 'article_' . $this->post->id)); ?>
+</div>
+```
+
+[disqus-helper]: https://github.com/nikolaposa/disqus-helper

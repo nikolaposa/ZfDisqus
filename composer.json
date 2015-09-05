@@ -33,6 +33,9 @@
         "zendframework/zend-log": "2.*",
         "zendframework/zend-i18n": "2.*"
     },
+    "suggest": {
+        "zendframework/zend-mvc": "Zend\\Mvc component"
+    },
     "autoload": {
         "psr-0": {
             "ZfDisqus": "src/"

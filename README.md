@@ -71,7 +71,7 @@ while Disqus assets will be rendered somewhere in the layout, most commonly with
         <?php echo $this->content; ?>
 
         <!-- Disqus init invokation -->
-        <?php echo $this->disqus()->init(); ?>
+        <?php echo $this->disqus(); ?>
     </body>
 </html>
 ```
@@ -88,7 +88,7 @@ while Disqus assets will be rendered somewhere in the layout, most commonly with
 <div>
     <h2>Comments:</h2>
     <!-- Thread widget -->
-    <?php echo $this->disqus()->thread(array('title' => $this->post->title, 'identifier' => 'article_' . $this->post->id)); ?>
+    <?php echo $this->disqus()->thread(array(), array('title' => $this->post->title, 'identifier' => 'article_' . $this->post->id)); ?>
 </div>
 ```
 

@@ -12,6 +12,7 @@ namespace ZfDisqusTest\View\Helper;
 
 use ZfDisqus\View\Helper\Disqus;
 use DisqusHelper\Disqus as DisqusHelper;
+use Zend\View\Renderer\PhpRenderer as View;
 
 /**
  * @author Nikola Posa <posa.nikola@gmail.com>
@@ -55,5 +56,40 @@ class DisqusTest extends \PHPUnit_Framework_TestCase
     {
         $disqus = new Disqus(new DisqusHelper('foobar'));
         $disqus->undefined();
+    }
+
+    public function testUrlArrayParameterIsProperlyBuiltToString()
+    {
+        $disqus = new Disqus(new DisqusHelper('foobar'));
+        $view = new View();
+
+        $disqus->setView($view);
+
+        $urlHelper = $this->getMock('Zend\View\Helper\Url');
+        $view->getHelperPluginManager()->setService('url', $urlHelper);
+
+        $options = array(
+            'url' => array(
+                'name' => 'viewPost',
+                'params' => array('id' => 1),
+                'options' => array(),
+                'reuseMatchedParams' => true
+            )
+        );
+
+        $urlHelper->expects($this->once())
+            ->method('__invoke')
+            ->with(
+                $this->equalTo($options['url']['name']),
+                $this->equalTo($options['url']['params']),
+                $this->equalTo($options['url']['options']),
+                $this->equalTo($options['url']['reuseMatchedParams'])
+            )->will($this->returnValue('/blog/article1'));
+
+        $html = $disqus->commentsCount($options);
+
+        $this->assertContains('<a', $html);
+        $this->assertContains('href', $html);
+        $this->assertContains('/blog/article1', $html);
     }
 }

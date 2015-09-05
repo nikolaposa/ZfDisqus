@@ -1,5 +1,7 @@
 # ZfDisqus
 
+[![Build Status](https://travis-ci.org/nikolaposa/ZfDisqus.svg?branch=master)](https://travis-ci.org/nikolaposa/ZfDisqus)
+
 ZfDisqus is a [Zend Framework 2](http://framework.zend.com) module which facilitates integration of
 [Disqus](https://disqus.com/websites) widgets.
 
@@ -12,7 +14,7 @@ Add this project into your composer.json:
 
 ```json
 "require": {
-    "nikolaposa/zf-disqus": "dev-master"
+    "nikolaposa/zf-disqus": "1.*"
 }
 ```
 

@@ -19,19 +19,22 @@
     ],
     "require": {
         "php": ">=5.3.3",
+        "nikolaposa/disqus-helper": "1.*",
         "zendframework/zend-view": "2.*",
-        "zendframework/zend-mvc": "2.*",
-        "zendframework/zend-uri": "2.*",
         "zendframework/zend-modulemanager": "2.*",
         "zendframework/zend-servicemanager": "2.*"
     },
     "require-dev": {
+        "zendframework/zend-mvc": "2.*",
         "zendframework/zend-config": "2.*",
         "zendframework/zend-loader": "2.*",
         "zendframework/zend-stdlib": "2.*",
         "zendframework/zend-serializer": "2.*",
         "zendframework/zend-log": "2.*",
         "zendframework/zend-i18n": "2.*"
+    },
+    "suggest": {
+        "zendframework/zend-mvc": "Zend\\Mvc component"
     },
     "autoload": {
         "psr-0": {

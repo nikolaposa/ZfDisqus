@@ -12,146 +12,92 @@ namespace ZfDisqus\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 use Zend\View\Exception;
+use DisqusHelper\Disqus as DisqusHelper;
+use DisqusHelper\Exception\Exception as DisqusHelperException;
 
 /**
+ * Wrapper around DisqusHelper.
+ *
  * @author Nikola Posa <posa.nikola@gmail.com>
  */
-class Disqus extends AbstractHelper
+final class Disqus extends AbstractHelper
 {
     /**
-     * Disqus forum shortname.
-     *
-     * @var string
+     * @var DisqusHelper
      */
-    protected $shortName;
+    private $disqusHelper;
 
     /**
-     * Whether to append widget JS code to the InlineScript container.
-     *
-     * @var bool
+     * @var array
      */
-    protected $useInlineScriptContainer = true;
+    private static $plugins = array();
 
     /**
-     * @var Disqus\WidgetManager
+     * @param DisqusHelper $disqusHelper
      */
-    protected $widgets;
-
-    /**
-     * @param string $shortName
-     */
-    public function __construct($shortName)
+    public function __construct(DisqusHelper $disqusHelper)
     {
-        $this->setShortName($shortName);
+        $this->disqusHelper = $disqusHelper;
+
+        self::$plugins = array(
+            'pluginUrlBuilder'
+        );
     }
 
     /**
-     * @return string
-     */
-    public function getShortName()
-    {
-        return $this->shortName;
-    }
-
-    /**
-     * @param string $shortName
-     * @return self
-     */
-    public function setShortName($shortName)
-    {
-        $this->shortName = $shortName;
-        return $this;
-    }
-
-    public function getUseInlineScriptContainer()
-    {
-        return $this->useInlineScriptContainer;
-    }
-
-    public function setUseInlineScriptContainer($flag)
-    {
-        $this->useInlineScriptContainer = (bool) $flag;
-        return $this;
-    }
-
-    /**
-     * Set manager for retrieving widgets.
-     *
-     * @param Disqus\WidgetManager $widgets
-     * @return self
-     */
-    public function setWidgetManager(Disqus\WidgetManager $widgets)
-    {
-        $renderer = $this->getView();
-        if ($renderer) {
-            $widgets->setRenderer($renderer);
-        }
-        $this->widgets = $widgets;
-
-        return $this;
-    }
-
-    /**
-     * Retrieve plugin loader for widgets.
-     *
-     * Lazy-loads an instance of Disqus\WidgetManager if none currently
-     * registered.
-     *
-     * @return Disqus\WidgetManager
-     */
-    public function getWidgetManager()
-    {
-        if (null === $this->widgets) {
-            $this->setWidgetManager(new Disqus\WidgetManager());
-        }
-
-        return $this->widgets;
-    }
-
-    /**
-     *
-     * @param string $name
-     * @return Disqus\AbstractWidget
-     * @throws Exception\RuntimeException
-     */
-    protected function findWidget($name)
-    {
-        $widgets = $this->getWidgetManager();
-
-        if (!$widgets->has($name)) {
-            throw new Exception\RuntimeException(sprintf(
-                'Failed to find widget for %s',
-                $name
-            ));
-        }
-
-        return $widgets->get($name);
-    }
-
-    /**
-     * Overload method access; proxies calls to appropriate Disqus widget
-     * and returns HTML output.
+     * Proxies all calls to DisqusHelper.
      *
      * @param  string $method
      * @param  array  $args
-     * @throws Exception\BadMethodCallException
+     * @throws Exception\RuntimeException
      * @return string
      */
     public function __call($method, $args)
     {
-        $html = '';
+        if (($options = array_shift($args)) !== null) {
+            if (is_array($options)) {
+                foreach (self::$plugins as $plugin) {
+                    $options = $this->$plugin($options);
+                }
 
-        $widget = $this->findWidget($method);
-        $widget->setUseInlineScriptContainer($this->getUseInlineScriptContainer());
+                $args[0] = $options;
+            }
+        } else {
+            $options = array();
+        }
 
-        $config = array_merge(array('shortname' => $this->shortName), (array) array_shift($args));
-        $options = (array) array_shift($args);
+        $config = array_shift($args) ?: array();
 
-        $html .= $widget->render($options);
-        $html .= "\n\n" . $widget->renderScript($config);
-
-        return $html;
+        try {
+            return $this->disqusHelper->$method($options, $config);
+        } catch (DisqusHelperException $ex) {
+            throw new Exception\RuntimeException($ex->getMessage());
+        }
     }
 
+    /**
+     * @see \DisqusHelper\Disqus::__invoke()
+     */
+    public function __invoke(array $config = array())
+    {
+        $disqusHelper = $this->disqusHelper;
+        return $disqusHelper($config);
+    }
 
+    /**
+     * @param array $options
+     * @return void
+     */
+    protected function pluginUrlBuilder(array $options)
+    {
+        if (isset($options['url']) && is_array($options['url'])) {
+            $urlOptions = array_merge(
+                array('name' => null, 'params' => array(), 'options' => array(), 'reuseMatchedParams' => false),
+                $options['url']
+            );
+            $options['url'] = $this->getView()->url($urlOptions['name'], $urlOptions['params'], $urlOptions['options'], $urlOptions['reuseMatchedParams']);
+        }
+
+        return $options;
+    }
 }

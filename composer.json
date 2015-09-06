@@ -46,5 +46,10 @@
     },
     "autoload-dev": {
         "psr-0": { "ZfDisqusTest": "tests/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
     }
 }

@@ -92,4 +92,20 @@ class DisqusTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('href', $html);
         $this->assertContains('/blog/article1', $html);
     }
+
+    public function testInvocationOnViewInstance()
+    {
+        $view = new View();
+
+        $view->getHelperPluginManager()->setService('disqus', new Disqus(new DisqusHelper('foobar')));
+
+        $html = $view->disqus()->thread();
+
+        $html .= ' ' . $view->disqus(array('shortname' => 'test123'));
+
+        $this->assertContains('<script', $html);
+        $this->assertContains('shortname', $html);
+        $this->assertContains('test123', $html);
+        $this->assertContains('</script>', $html);
+    }
 }

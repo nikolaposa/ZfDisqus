@@ -33,6 +33,11 @@ final class Disqus extends AbstractHelper
     private static $plugins = array();
 
     /**
+     * @var array
+     */
+    private $config = array();
+
+    /**
      * @param DisqusHelper $disqusHelper
      */
     public function __construct(DisqusHelper $disqusHelper)
@@ -76,12 +81,25 @@ final class Disqus extends AbstractHelper
     }
 
     /**
-     * @see \DisqusHelper\Disqus::__invoke()
+     * Returns current object instance. Optionally, allows passing Disqus configuration.
+     *
+     * @return self
      */
     public function __invoke(array $config = array())
     {
+        $this->config = $config;
+        return $this;
+    }
+
+    /**
+     * @see \DisqusHelper\Disqus::__invoke()
+     *
+     * @return string
+     */
+    public function __toString()
+    {
         $disqusHelper = $this->disqusHelper;
-        return $disqusHelper($config);
+        return $disqusHelper($this->config);
     }
 
     /**

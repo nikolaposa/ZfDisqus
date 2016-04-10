@@ -10,6 +10,7 @@
 
 namespace ZfDisqusTest\View\Helper;
 
+use PHPUnit_Framework_TestCase;
 use ZfDisqus\View\Helper\Disqus;
 use DisqusHelper\Disqus as DisqusHelper;
 use Zend\View\Renderer\PhpRenderer as View;
@@ -17,7 +18,7 @@ use Zend\View\Renderer\PhpRenderer as View;
 /**
  * @author Nikola Posa <posa.nikola@gmail.com>
  */
-class DisqusTest extends \PHPUnit_Framework_TestCase
+class DisqusTest extends PHPUnit_Framework_TestCase
 {
     public function testWidgetRendering()
     {

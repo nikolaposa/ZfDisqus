@@ -31,7 +31,7 @@ final class ServiceManagerFactory
     /**
      * Builds a new service manager
      *
-     * @return \Zend\ServiceManager\ServiceManager
+     * @return ServiceManager
      */
     public static function getServiceManager()
     {
@@ -42,7 +42,6 @@ final class ServiceManagerFactory
         );
 
         $serviceManager->setService('ApplicationConfig', self::$config);
-        $serviceManager->setFactory('ServiceListener', 'Zend\Mvc\Service\ServiceListenerFactory');
 
         $serviceManager->get('ModuleManager')->loadModules();
 

@@ -1,26 +1,17 @@
 # ZfDisqus
 
-[![Build Status](https://travis-ci.org/nikolaposa/ZfDisqus.svg?branch=master)](https://travis-ci.org/nikolaposa/ZfDisqus)
-
 ZfDisqus is a [Zend Framework 2](http://framework.zend.com) integration of a [DisqusHelper][disqus-helper],
 library which facilitates integration of [Disqus](https://disqus.com/websites) widgets.
 
+[![Build Status](https://travis-ci.org/nikolaposa/ZfDisqus.svg?branch=master)](https://travis-ci.org/nikolaposa/ZfDisqus)
+
 ## Installation
 
-Install the library using [composer](http://getcomposer.org/). Add the following to your `composer.json`:
-
-```json
-{
-    "require": {
-        "nikolaposa/zf-disqus": "2.*"
-    }
-}
-```
-
-Tell composer to download ZfDisqus by running `install` command:
+The preferred method of installation is via [Composer](http://getcomposer.org/). Run the following
+command to install the latest version of a package and add it to your project's `composer.json`:
 
 ```bash
-$ php composer.phar install
+composer require nikolaposa/zf-disqus
 ```
 
 ### Provide your Disqus *shortname* through configuration:

@@ -1,6 +1,14 @@
 <phpunit
     bootstrap="./tests/Bootstrap.php"
     colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    verbose="true"
+    stopOnFailure="false"
+    processIsolation="false"
+    backupGlobals="false"
+    syntaxCheck="true"
 >
     <testsuites>
         <testsuite name="ZfDisqus Module tests">

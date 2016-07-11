@@ -17,28 +17,30 @@
             "homepage": "http://www.nikolaposa.in.rs"
         }
     ],
+    "config": {
+        "platform": {
+            "php": "7.0.3"
+        }
+    },
     "require": {
         "php": "^7.0",
-        "nikolaposa/disqus-helper": "^1.0",
-        "zendframework/zend-view": "^2.0",
-        "zendframework/zend-modulemanager": "^2.0",
-        "zendframework/zend-servicemanager": "^2.0"
+        "nikolaposa/disqus-helper": "^2.0",
+        "zendframework/zend-view": "^2.3",
+        "zendframework/zend-servicemanager": "^2.3 || ^3.0.3"
     },
     "require-dev": {
-        "zendframework/zend-mvc": "^2.0",
-        "zendframework/zend-config": "^2.0",
-        "zendframework/zend-loader": "^2.0",
-        "zendframework/zend-stdlib": "^2.0",
-        "zendframework/zend-serializer": "^2.0",
-        "zendframework/zend-log": "^2.0",
-        "zendframework/zend-i18n": "^2.0",
+        "zendframework/zend-modulemanager": "^2.3",
+        "zendframework/zend-serializer": "^2.3",
+        "zendframework/zend-log": "^2.3",
+        "zendframework/zend-i18n": "^2.3",
+        "zendframework/zend-test": "^2.3",
         "phpunit/phpunit": "^4.7"
     },
     "autoload": {
         "psr-4": { "ZfDisqus\\": "src/" }
     },
     "autoload-dev": {
-        "psr-4": { "ZfDisqusTest\\": "tests/" }
+        "psr-4": { "ZfDisqus\\Tests\\": "tests/" }
     },
     "extra": {
         "branch-alias": {

@@ -15,7 +15,7 @@ namespace ZfDisqus\View\Helper;
 use Zend\View\Helper\AbstractHelper;
 use Zend\View\Exception;
 use DisqusHelper\Disqus as DisqusHelper;
-use DisqusHelper\Exception\Exception as DisqusHelperException;
+use DisqusHelper\Exception\ExceptionInterface as DisqusHelperException;
 
 /**
  * @author Nikola Posa <posa.nikola@gmail.com>
@@ -27,14 +27,6 @@ final class Disqus extends AbstractHelper
      */
     private $disqusHelper;
 
-    /**
-     * @var array
-     */
-    private $config = [];
-
-    /**
-     * @param DisqusHelper $disqusHelper
-     */
     public function __construct(DisqusHelper $disqusHelper)
     {
         $this->disqusHelper = $disqusHelper;
@@ -45,31 +37,22 @@ final class Disqus extends AbstractHelper
      *
      * @param  string $method
      * @param  array  $args
+     *
      * @throws Exception\RuntimeException
-     * @return string
+     *
+     * @return mixed
      */
-    public function __call($method, $args) : string
+    public function __call($method, $args)
     {
-        $options = array_shift($args) ?: [];
-
-        $config = array_shift($args) ?: [];
-
         try {
-            return $this->disqusHelper->$method($options, $config);
+            return call_user_func_array([$this->disqusHelper, $method], $args);
         } catch (DisqusHelperException $ex) {
             throw new Exception\RuntimeException($ex->getMessage());
         }
     }
 
-    public function __invoke(array $config = []) : Disqus
-    {
-        $this->config = $config;
-        return $this;
-    }
-
     public function __toString() : string
     {
-        $disqusHelper = $this->disqusHelper;
-        return $disqusHelper($this->config);
+        return $this->disqusHelper->getCode();
     }
 }

@@ -10,12 +10,10 @@
 
 declare(strict_types=1);
 
-error_reporting(E_ALL | E_STRICT);
+namespace ZfDisqus\Exception;
 
-chdir(dirname(__DIR__));
+use RuntimeException;
 
-require 'vendor/autoload.php';
-
-$testConfig = file_exists('TestConfig.php') ? require 'TestConfig.php' : require 'TestConfig.php.dist';
-
-ZfDisqus\Tests\Util\ServiceManagerFactory::setConfig($testConfig);
+class DisqusConfigurationNotProvidedException extends RuntimeException implements ExceptionInterface
+{
+}

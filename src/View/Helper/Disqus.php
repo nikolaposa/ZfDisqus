@@ -1,12 +1,14 @@
 <?php
 /**
- * This file is part of the ZfDisqus package.
+ * This file is part of the ZfDisqus Module package.
  *
  * Copyright (c) Nikola Posa <posa.nikola@gmail.com>
  *
  * For full copyright and license information, please refer to the LICENSE file,
  * located at the package root folder.
  */
+
+declare(strict_types=1);
 
 namespace ZfDisqus\View\Helper;
 
@@ -16,8 +18,6 @@ use DisqusHelper\Disqus as DisqusHelper;
 use DisqusHelper\Exception\Exception as DisqusHelperException;
 
 /**
- * Wrapper around DisqusHelper.
- *
  * @author Nikola Posa <posa.nikola@gmail.com>
  */
 final class Disqus extends AbstractHelper
@@ -30,12 +30,7 @@ final class Disqus extends AbstractHelper
     /**
      * @var array
      */
-    private static $plugins = array();
-
-    /**
-     * @var array
-     */
-    private $config = array();
+    private $config = [];
 
     /**
      * @param DisqusHelper $disqusHelper
@@ -43,10 +38,6 @@ final class Disqus extends AbstractHelper
     public function __construct(DisqusHelper $disqusHelper)
     {
         $this->disqusHelper = $disqusHelper;
-
-        self::$plugins = array(
-            'pluginUrlBuilder'
-        );
     }
 
     /**
@@ -57,21 +48,11 @@ final class Disqus extends AbstractHelper
      * @throws Exception\RuntimeException
      * @return string
      */
-    public function __call($method, $args)
+    public function __call($method, $args) : string
     {
-        if (($options = array_shift($args)) !== null) {
-            if (is_array($options)) {
-                foreach (self::$plugins as $plugin) {
-                    $options = $this->$plugin($options);
-                }
+        $options = array_shift($args) ?: [];
 
-                $args[0] = $options;
-            }
-        } else {
-            $options = array();
-        }
-
-        $config = array_shift($args) ?: array();
+        $config = array_shift($args) ?: [];
 
         try {
             return $this->disqusHelper->$method($options, $config);
@@ -80,42 +61,15 @@ final class Disqus extends AbstractHelper
         }
     }
 
-    /**
-     * Returns current object instance. Optionally, allows passing Disqus configuration.
-     *
-     * @return self
-     */
-    public function __invoke(array $config = array())
+    public function __invoke(array $config = []) : Disqus
     {
         $this->config = $config;
         return $this;
     }
 
-    /**
-     * @see \DisqusHelper\Disqus::__invoke()
-     *
-     * @return string
-     */
-    public function __toString()
+    public function __toString() : string
     {
         $disqusHelper = $this->disqusHelper;
         return $disqusHelper($this->config);
-    }
-
-    /**
-     * @param array $options
-     * @return void
-     */
-    protected function pluginUrlBuilder(array $options)
-    {
-        if (isset($options['url']) && is_array($options['url'])) {
-            $urlOptions = array_merge(
-                array('name' => null, 'params' => array(), 'options' => array(), 'reuseMatchedParams' => false),
-                $options['url']
-            );
-            $options['url'] = $this->getView()->url($urlOptions['name'], $urlOptions['params'], $urlOptions['options'], $urlOptions['reuseMatchedParams']);
-        }
-
-        return $options;
     }
 }

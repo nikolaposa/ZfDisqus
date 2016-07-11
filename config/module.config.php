@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the ZfDisqus package.
+ * This file is part of the ZfDisqus Module package.
  *
  * Copyright (c) Nikola Posa <posa.nikola@gmail.com>
  *
@@ -8,9 +8,9 @@
  * located at the package root folder.
  */
 
-return array(
-    'disqus' => array(
+return [
+    'disqus' => [
         'shortname' => null //Enter your Disqus "shortname" here
-    )
-);
+    ]
+];
 

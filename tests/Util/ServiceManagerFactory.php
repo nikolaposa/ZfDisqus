@@ -1,12 +1,14 @@
 <?php
 /**
- * This file is part of the ZfDisqus package.
+ * This file is part of the ZfDisqus Module package.
  *
  * Copyright (c) Nikola Posa <posa.nikola@gmail.com>
  *
  * For full copyright and license information, please refer to the LICENSE file,
  * located at the package root folder.
  */
+
+declare(strict_types=1);
 
 namespace ZfDisqusTest\Util;
 
@@ -33,12 +35,10 @@ final class ServiceManagerFactory
      *
      * @return ServiceManager
      */
-    public static function getServiceManager()
+    public static function getServiceManager() : ServiceManager
     {
         $serviceManager = new ServiceManager(
-            new ServiceManagerConfig(
-                isset(self::$config['service_manager']) ? self::$config['service_manager'] : array()
-            )
+            new ServiceManagerConfig(self::$config['service_manager'] ?? [])
         );
 
         $serviceManager->setService('ApplicationConfig', self::$config);

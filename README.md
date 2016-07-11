@@ -50,6 +50,31 @@ Refer to the DisqusHelper project documenation for more information about availa
 Typical example would be in some application which uses layouts. Widgets should be rendered in specific templates,
 while Disqus assets will be rendered somewhere in the layout, most commonly within the head or tail sections:
 
+**Template**
+```html
+<!-- post.phtml -->
+
+<?php
+    //Page-specific Disqus configuration
+    $this->disqus()->configure([
+        'identifier' => 'article_' . $this->post->id
+        'title' => $this->post->title,
+    ]);
+?>
+
+<article>
+    <h1><?php echo $this->escapeHtml($this->post->title); ?></h1>
+
+    <?php echo $this->post->body; ?>
+</article>
+
+<div>
+    <h2>Comments:</h2>
+    <!-- Thread widget HTML -->
+    <?php echo $this->disqus()->thread(); ?>
+</div>
+```
+
 **Layout**
 ```html
 <!-- layout.phtml -->
@@ -61,26 +86,10 @@ while Disqus assets will be rendered somewhere in the layout, most commonly with
     <body>
         <?php echo $this->content; ?>
 
-        <!-- Disqus init invokation -->
+        <!-- Render Disqus JS code -->
         <?php echo $this->disqus(); ?>
     </body>
 </html>
-```
-
-**Template**
-```html
-<!-- post.phtml -->
-<article>
-    <h1><?php echo $this->escapeHtml($this->post->title); ?></h1>
-
-    <?php echo $this->post->body; ?>
-</article>
-
-<div>
-    <h2>Comments:</h2>
-    <!-- Thread widget -->
-    <?php echo $this->disqus()->thread([], ['title' => $this->post->title, 'identifier' => 'article_' . $this->post->id]); ?>
-</div>
 ```
 
 ## Author

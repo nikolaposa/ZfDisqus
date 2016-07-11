@@ -1,7 +1,10 @@
-<phpunit bootstrap="./tests/Bootstrap.php" colors="true">
+<phpunit
+    bootstrap="./tests/Bootstrap.php"
+    colors="true"
+>
     <testsuites>
-        <testsuite name="ZfDisqus Module Tests">
-            <directory>./tests/ZfDisqusTest</directory>
+        <testsuite name="ZfDisqus Module tests">
+            <directory>./tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>

@@ -35,10 +35,10 @@
         "phpunit/phpunit": "^4.7"
     },
     "autoload": {
-        "psr-0": { "ZfDisqus": "src/" }
+        "psr-4": { "ZfDisqus\\": "src/" }
     },
     "autoload-dev": {
-        "psr-0": { "ZfDisqusTest": "tests/" }
+        "psr-4": { "ZfDisqusTest\\": "tests/" }
     },
     "extra": {
         "branch-alias": {

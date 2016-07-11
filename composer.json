@@ -1,13 +1,13 @@
 {
     "name": "nikolaposa/zf-disqus",
-    "description": "ZF2 module which facilitates integration of Disqus services",
+    "description": "ZF2 module which facilitates integration of Disqus widgets",
     "type": "library",
     "license": "MIT",
     "keywords": [
+        "disqus",
         "zf2",
         "zend",
-        "module",
-        "disqus"
+        "module"
     ],
     "homepage": "https://github.com/nikolaposa/ZfDisqus",
     "authors": [
@@ -19,30 +19,23 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "nikolaposa/disqus-helper": "1.*",
-        "zendframework/zend-view": "2.*",
-        "zendframework/zend-modulemanager": "2.*",
-        "zendframework/zend-servicemanager": "2.*"
+        "nikolaposa/disqus-helper": "^1.0",
+        "zendframework/zend-view": "^2.0",
+        "zendframework/zend-modulemanager": "^2.0",
+        "zendframework/zend-servicemanager": "^2.0"
     },
     "require-dev": {
-        "zendframework/zend-mvc": "2.*",
-        "zendframework/zend-config": "2.*",
-        "zendframework/zend-loader": "2.*",
-        "zendframework/zend-stdlib": "2.*",
-        "zendframework/zend-serializer": "2.*",
-        "zendframework/zend-log": "2.*",
-        "zendframework/zend-i18n": "2.*"
-    },
-    "suggest": {
-        "zendframework/zend-mvc": "Zend\\Mvc component"
+        "zendframework/zend-mvc": "^2.0",
+        "zendframework/zend-config": "^2.0",
+        "zendframework/zend-loader": "^2.0",
+        "zendframework/zend-stdlib": "^2.0",
+        "zendframework/zend-serializer": "^2.0",
+        "zendframework/zend-log": "^2.0",
+        "zendframework/zend-i18n": "^2.0",
+        "phpunit/phpunit": "^4.7"
     },
     "autoload": {
-        "psr-0": {
-            "ZfDisqus": "src/"
-        },
-        "classmap": [
-            "src/"
-        ]
+        "psr-0": { "ZfDisqus": "src/" }
     },
     "autoload-dev": {
         "psr-0": { "ZfDisqusTest": "tests/" }

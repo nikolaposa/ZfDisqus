@@ -1,4 +1,3 @@
-<?php
 /**
  * This file is part of the ZfDisqus Module package.
  *
@@ -10,16 +9,14 @@
 
 declare(strict_types=1);
 
+/**
+ * ZfDisqus Module configuration
+ *
+ * If you have a ./config/autoload/ directory set up for your project, you can
+ * drop this config file in it and change the values as you wish.
+ */
 return [
-    'modules' => [
-        'ZfDisqus',
-    ],
-	'module_listener_options' => [
-        'config_glob_paths' => [
-            __DIR__ . '/testing.config.php'
-        ],
-        'module_paths' => [
-            'src',
-        ],
-    ],
+    'disqus' => [
+        'shortname' => 'your_disqus_shortname',
+    ]
 ];

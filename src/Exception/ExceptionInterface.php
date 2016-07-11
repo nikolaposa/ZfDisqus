@@ -8,9 +8,10 @@
  * located at the package root folder.
  */
 
-return [
-    'disqus' => [
-        'shortname' => null //Enter your Disqus "shortname" here
-    ]
-];
+declare(strict_types=1);
 
+namespace ZfDisqus\Exception;
+
+interface ExceptionInterface
+{
+}

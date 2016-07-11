@@ -10,10 +10,10 @@
 
 declare(strict_types=1);
 
-namespace ZfDisqusTest\Util;
+namespace ZfDisqus\Tests\Util;
 
 use Zend\ServiceManager\ServiceManager;
-use Zend\Mvc\Service\ServiceManagerConfig;
+use Zend\Test\Util\ModuleLoader;
 
 final class ServiceManagerFactory
 {
@@ -22,29 +22,19 @@ final class ServiceManagerFactory
      */
     protected static $config;
 
-    /**
-     * @param array $config
-     */
+    private function __construct()
+    {
+    }
+
     public static function setConfig(array $config)
     {
         self::$config = $config;
     }
 
-    /**
-     * Builds a new service manager
-     *
-     * @return ServiceManager
-     */
-    public static function getServiceManager() : ServiceManager
+    public static function getServiceManager(array $config = null) : ServiceManager
     {
-        $serviceManager = new ServiceManager(
-            new ServiceManagerConfig(self::$config['service_manager'] ?? [])
-        );
+        $moduleLoader = new ModuleLoader($config ?: self::$config);
 
-        $serviceManager->setService('ApplicationConfig', self::$config);
-
-        $serviceManager->get('ModuleManager')->loadModules();
-
-        return $serviceManager;
+        return $moduleLoader->getServiceManager();
     }
 }

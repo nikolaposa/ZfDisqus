@@ -1,12 +1,14 @@
 <?php
 /**
- * This file is part of the ZfDisqus package.
+ * This file is part of the ZfDisqus Module package.
  *
  * Copyright (c) Nikola Posa <posa.nikola@gmail.com>
  *
  * For full copyright and license information, please refer to the LICENSE file,
  * located at the package root folder.
  */
+
+declare(strict_types=1);
 
 namespace ZfDisqus;
 
@@ -24,26 +26,26 @@ class Module implements
     ConfigProviderInterface,
     ViewHelperProviderInterface
 {
-    public function getAutoloaderConfig()
+    public function getAutoloaderConfig() : array
     {
-        return array(
-            'Zend\Loader\StandardAutoloader' => array(
-                'namespaces' => array(
+        return [
+            'Zend\Loader\StandardAutoloader' => [
+                'namespaces' => [
                     __NAMESPACE__ => __DIR__,
-                ),
-            )
-        );
+                ],
+            ]
+        ];
     }
 
-    public function getConfig()
+    public function getConfig() : array
     {
         return include __DIR__ . '/../config/module.config.php';
     }
 
-    public function getViewHelperConfig()
+    public function getViewHelperConfig() : array
     {
-        return array(
-            'factories' => array(
+        return [
+            'factories' => [
                 'disqus' => function($pm) {
                     $serviceLocator = $pm->getServiceLocator();
                     $config = $serviceLocator->get('Config');
@@ -56,7 +58,7 @@ class Module implements
 
                     return new Disqus(new DisqusHelper($config['disqus']['shortname'], $config['disqus']));
                 }
-            )
-        );
+            ]
+        ];
     }
 }

@@ -18,26 +18,26 @@ composer require nikolaposa/zf-disqus
 
 ```php
 <?php
-return array(
-    'disqus' => array(
+return [
+    'disqus' => [
         'shortname' => 'your_disqus_shortname'
         //any other Disqus config can be provided here
-    ),
+    ],
     // ...
-);
+];
 ```
 
 ### Enable the module in your `application.config.php`:
 
 ```php
 <?php
-return array(
-    'modules' => array(
+return [
+    'modules' => [
         // ...
         'ZfDisqus',
-    ),
+    ],
     // ...
-);
+];
 ```
 
 ## Usage
@@ -79,8 +79,19 @@ while Disqus assets will be rendered somewhere in the layout, most commonly with
 <div>
     <h2>Comments:</h2>
     <!-- Thread widget -->
-    <?php echo $this->disqus()->thread(array(), array('title' => $this->post->title, 'identifier' => 'article_' . $this->post->id)); ?>
+    <?php echo $this->disqus()->thread([], ['title' => $this->post->title, 'identifier' => 'article_' . $this->post->id]); ?>
 </div>
 ```
+
+## Author
+
+**Nikola Poša**
+
+* https://twitter.com/nikolaposa
+* https://github.com/nikolaposa
+
+## Copyright and license
+
+Copyright 2016 Nikola Poša. Released under MIT License - see the `LICENSE` file for details.
 
 [disqus-helper]: https://github.com/nikolaposa/disqus-helper

@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
+        "php": "^7.0",
         "nikolaposa/disqus-helper": "^1.0",
         "zendframework/zend-view": "^2.0",
         "zendframework/zend-modulemanager": "^2.0",

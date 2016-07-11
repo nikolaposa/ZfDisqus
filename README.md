@@ -1,7 +1,7 @@
 # ZfDisqus
 
 [![Build Status](https://travis-ci.org/nikolaposa/ZfDisqus.svg?branch=master)](https://travis-ci.org/nikolaposa/ZfDisqus)
-[![Latest Stable Version](https://poser.pugx.org/nikolaposa/ZfDisqus/v/stable)](https://packagist.org/packages/nikolaposa/ZfDisqus)
+[![Latest Stable Version](https://poser.pugx.org/nikolaposa/zf-disqus/v/stable)](https://packagist.org/packages/nikolaposa/zf-disqus)
 
 ZfDisqus is a [Zend Framework 2](http://framework.zend.com) integration of a [DisqusHelper][disqus-helper],
 library which facilitates integration of [Disqus](https://disqus.com/websites) widgets.

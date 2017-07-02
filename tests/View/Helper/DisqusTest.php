@@ -12,15 +12,15 @@ declare(strict_types=1);
 
 namespace ZfDisqus\Tests\View\Helper;
 
-use PHPUnit_Framework_TestCase;
-use ZfDisqus\View\Helper\Disqus;
 use DisqusHelper\Disqus as DisqusHelper;
+use PHPUnit\Framework\TestCase;
 use Zend\View\Exception\RuntimeException;
+use ZfDisqus\View\Helper\Disqus;
 
 /**
  * @author Nikola Posa <posa.nikola@gmail.com>
  */
-class DisqusTest extends PHPUnit_Framework_TestCase
+class DisqusTest extends TestCase
 {
     /**
      * @var Disqus
@@ -32,12 +32,18 @@ class DisqusTest extends PHPUnit_Framework_TestCase
         $this->disqus = new Disqus(DisqusHelper::create('test'));
     }
 
-    public function testGettingShortName()
+    /**
+     * @test
+     */
+    public function it_provides_short_name()
     {
-        $this->assertEquals('test', $this->disqus->getShortName());
+        $this->assertSame('test', $this->disqus->getShortName());
     }
 
-    public function testSettingConfiguration()
+    /**
+     * @test
+     */
+    public function it_sets_configuration()
     {
         $this->disqus->configure([
             'identifier' => 'article1',
@@ -50,7 +56,10 @@ class DisqusTest extends PHPUnit_Framework_TestCase
         $this->assertContains('My article', $html);
     }
 
-    public function testWidgetInvokation()
+    /**
+     * @test
+     */
+    public function it_invokes_widget()
     {
         $html = $this->disqus->thread();
 
@@ -58,10 +67,17 @@ class DisqusTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($html);
     }
 
-    public function testDisqusHelperExceptionWrappedIntoZfViewException()
+    /**
+     * @test
+     */
+    public function it_wraps_disqus_helper_exceptions_into_zf_view_exceptions()
     {
-        $this->setExpectedException(RuntimeException::class);
+        try {
+            $this->disqus->undefined();
 
-        $this->disqus->undefined();
+            $this->fail('Exception should have been raised');
+        } catch (\Exception $ex) {
+            $this->assertInstanceOf(RuntimeException::class, $ex);
+        }
     }
 }

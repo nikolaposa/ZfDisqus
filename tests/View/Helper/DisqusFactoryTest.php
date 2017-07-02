@@ -12,82 +12,77 @@ declare(strict_types=1);
 
 namespace ZfDisqus\Tests\View\Helper;
 
-use PHPUnit_Framework_TestCase;
-use ZfDisqus\View\Helper\Service\DisqusFactory;
-use ZfDisqus\View\Helper\Disqus;
-use ZfDisqus\Tests\Util\ServiceManagerFactory;
-use Zend\View\HelperPluginManager;
+use PHPUnit\Framework\TestCase;
+use Zend\ServiceManager\ServiceManager;
 use ZfDisqus\Exception\DisqusConfigurationNotProvidedException;
+use ZfDisqus\Tests\ServiceManagerFactory;
+use ZfDisqus\View\Helper\Disqus as DisqusHelper;
+use ZfDisqus\View\Helper\DisqusFactory;
 
-class DisqusFactoryTest extends PHPUnit_Framework_TestCase
+class DisqusFactoryTest extends TestCase
 {
     /**
      * @var DisqusFactory
      */
-    protected $disqusFactory;
+    protected $factory;
 
     protected function setUp()
     {
-        $this->disqusFactory = new DisqusFactory();
+        $this->factory = new DisqusFactory();
     }
 
-    public function testServiceManagerV3Creation()
+    /**
+     * @test
+     */
+    public function it_creates_view_helper()
     {
-        $factory = $this->disqusFactory;
-
-        $disqus = $factory(ServiceManagerFactory::getServiceManager(), 'disqus');
-
-        $this->assertInstanceOf(Disqus::class, $disqus);
-        $this->assertEquals('test', $disqus->getShortname());
-    }
-
-    public function testServiceManagerV2Creation()
-    {
-        $disqus = $this->disqusFactory->createService(ServiceManagerFactory::getServiceManager());
-
-        $this->assertInstanceOf(Disqus::class, $disqus);
-        $this->assertEquals('test', $disqus->getShortname());
-    }
-
-    public function testExceptionIsRaisedIfDisqusConfigurationIsNotProvided()
-    {
-        $this->setExpectedException(DisqusConfigurationNotProvidedException::class);
-
-        $this->disqusFactory->createService(ServiceManagerFactory::getServiceManager([
-            'modules' => [
-                'ZfDisqus',
-            ],
-            'module_listener_options' => [
-                'config_glob_paths' => [],
-                'module_paths' => [
-                    'src',
-                ],
-            ],
-        ]));
-    }
-
-    public function testConfiguringDisqusInstanceAfterCreation()
-    {
-        $disqus = $this->disqusFactory->createService(ServiceManagerFactory::getServiceManager([
-            'modules' => [
-                'ZfDisqus',
-            ],
-            'module_listener_options' => [
-                'extra_config' => [
+        $container = new ServiceManager([
+            'services' => [
+                'config' => [
                     'disqus' => [
                         'shortname' => 'test',
-                        'lang' => 'en_US',
                     ],
                 ],
-                'module_paths' => [
-                    'src',
+            ],
+        ]);
+
+        $this->assertInstanceOf(DisqusHelper::class, $this->factory->__invoke($container));
+    }
+
+    /**
+     * @test
+     */
+    public function it_raises_exception_if_config_not_provided()
+    {
+        $container = new ServiceManager([
+            'services' => [
+                'config' => [
+                    'disqus' => [],
                 ],
             ],
-        ]));
+        ]);
 
-        $html = (string) $disqus;
+        try {
+            $this->factory->__invoke($container);
 
-        $this->assertContains('lang', $html);
-        $this->assertContains('en_US', $html);
+            $this->fail('Exception should have been raised');
+        } catch (DisqusConfigurationNotProvidedException $ex) {
+            $this->assertSame('Disqus shortname must be provided through the `disqus` -> `shortname` configuration option', $ex->getMessage());
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function it_is_registered_as_app_view_helper_factory()
+    {
+        $serviceManager = ServiceManagerFactory::getServiceManager();
+
+        $viewHelper = $serviceManager->get('ViewHelperManager');
+
+        $this->assertTrue($viewHelper->has('Disqus'));
+        $this->assertTrue($viewHelper->has('disqus'));
+        $disqusHelper = $viewHelper->get('Disqus');
+        $this->assertSame('test', $disqusHelper->getShortname());
     }
 }

@@ -1,15 +1,15 @@
 # ZfDisqus
 
-[![Build Status](https://travis-ci.org/nikolaposa/ZfDisqus.svg?branch=master)](https://travis-ci.org/nikolaposa/ZfDisqus)
-[![Latest Stable Version](https://poser.pugx.org/nikolaposa/zf-disqus/v/stable)](https://packagist.org/packages/nikolaposa/zf-disqus)
+[![Build Status][ico-build]][link-build]
+[![Code Quality][ico-code-quality]][link-code-quality]
+[![Code Coverage][ico-code-coverage]][link-code-coverage]
+[![Latest Version][ico-version]][link-packagist]
 
-ZfDisqus is a [Zend Framework 2](http://framework.zend.com) integration of a [DisqusHelper][disqus-helper],
-library which facilitates integration of [Disqus](https://disqus.com/websites) widgets.
+ZF module which facilitates integration of [Disqus](https://disqus.com/websites) widgets.
 
 ## Installation
 
-The preferred method of installation is via [Composer](http://getcomposer.org/). Run the following
-command to install the latest version of a package and add it to your project's `composer.json`:
+The preferred method of installation is via [Composer](http://getcomposer.org/). Run the following command to install the latest version of a package and add it to your project's `composer.json`:
 
 ```bash
 composer require nikolaposa/zf-disqus
@@ -43,13 +43,11 @@ return [
 
 ## Usage
 
-This module provides a `Disqus` view helper (`ZfDisqus\View\Helper\Disqus`) which is essentially a wrapper around the [DisqusHelper][disqus-helper].
-Refer to the DisqusHelper project documenation for more information about available widget methods.
+This module provides a `Disqus` view helper (`ZfDisqus\View\Helper\Disqus`) which is essentially a wrapper around the [DisqusHelper][link-disqus-helper]. Refer to the DisqusHelper project documenation for more information about available widget methods.
 
 ### Examples
 
-Typical example would be in some application which uses layouts. Widgets should be rendered in specific templates,
-while Disqus assets will be rendered somewhere in the layout, most commonly within the head or tail sections:
+Typical example would be in some application which uses layouts. Widgets should be rendered in specific templates, while Disqus assets will be rendered somewhere in the layout, most commonly within the head or tail sections:
 
 **Template**
 ```html
@@ -93,15 +91,23 @@ while Disqus assets will be rendered somewhere in the layout, most commonly with
 </html>
 ```
 
-## Author
+## Credits
 
-**Nikola Poša**
+- [Nikola Poša][link-author]
+- [All Contributors][link-contributors]
 
-* https://twitter.com/nikolaposa
-* https://github.com/nikolaposa
+## License
 
-## Copyright and license
+Released under MIT License - see the [License File](LICENSE) for details.
 
-Copyright 2017 Nikola Poša. Released under MIT License - see the `LICENSE` file for details.
+[ico-version]: https://img.shields.io/packagist/v/nikolaposa/zf-disqus.svg
+[ico-build]: https://travis-ci.org/nikolaposa/ZfDisqus.svg?branch=master
+[ico-code-coverage]: https://img.shields.io/scrutinizer/coverage/g/nikolaposa/ZfDisqus.svg?b=master
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/nikolaposa/ZfDisqus.svg?b=master
 
-[disqus-helper]: https://github.com/nikolaposa/disqus-helper
+[link-packagist]: https://packagist.org/packages/nikolaposa/zf-disqus
+[link-build]: https://travis-ci.org/nikolaposa/ZfDisqus
+[link-code-coverage]: https://scrutinizer-ci.com/g/nikolaposa/ZfDisqus/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/nikolaposa/ZfDisqus
+[link-author]: https://github.com/nikolaposa
+[link-contributors]: ../../contributors

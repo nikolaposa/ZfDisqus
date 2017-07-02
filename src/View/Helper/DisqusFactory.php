@@ -10,38 +10,19 @@
 
 declare(strict_types=1);
 
-namespace ZfDisqus\View\Helper\Service;
+namespace ZfDisqus\View\Helper;
 
-use Zend\ServiceManager\FactoryInterface;
-use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use ZfDisqus\View\Helper\Disqus;
 use DisqusHelper\Disqus as DisqusHelper;
+use Interop\Container\ContainerInterface;
 use ZfDisqus\Exception\DisqusConfigurationNotProvidedException;
 
-final class DisqusFactory implements FactoryInterface
+final class DisqusFactory
 {
-    /**
-     * {@inheritDoc}
-     */
-    public function __invoke(ContainerInterface $container, $name, array $options = null) : Disqus
+    public function __invoke(ContainerInterface $container) : Disqus
     {
-        // test if we are using Zend\ServiceManager v2 or v3
-        if (! method_exists($container, 'configure')) {
-            $container = $container->getServiceLocator();
-        }
-
-        $config = $container->get('Config');
+        $config = $container->get('config');
 
         return new Disqus($this->createDisqusHelper($config['disqus'] ?? []));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator, $rName = null, $cName = null) : Disqus
-    {
-        return $this($serviceLocator, $cName);
     }
 
     private function createDisqusHelper(array $config) : DisqusHelper

@@ -8,10 +8,9 @@
  * located at the package root folder.
  */
 
-declare(strict_types=1);
-
 return [
     'disqus' => [
         'shortname' => 'test',
+        'lang' => 'en_US',
     ]
 ];

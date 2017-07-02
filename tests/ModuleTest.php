@@ -12,21 +12,28 @@ declare(strict_types=1);
 
 namespace ZfDisqus\Tests;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use ZfDisqus\Module;
 
-class ModuleTest extends PHPUnit_Framework_TestCase
+class ModuleTest extends TestCase
 {
-    public function testGetViewHelperConfig()
+    /**
+     * @var Module
+     */
+    protected $module;
+
+    protected function setUp()
     {
-        $module = new Module();
+        $this->module = new Module();
+    }
 
-        $viewHelperConfig = $module->getViewHelperConfig();
+    /**
+     * @test
+     */
+    public function it_provides_config()
+    {
+        $config = include __DIR__ . '/../config/module.config.php';
 
-        $this->assertSame(
-            @include 'config/view_helper.config.php',
-            $viewHelperConfig,
-            'View helper configuration could not be read'
-        );
+        $this->assertSame($config, $this->module->getConfig());
     }
 }

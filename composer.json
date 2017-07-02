@@ -1,15 +1,14 @@
 {
     "name": "nikolaposa/zf-disqus",
-    "description": "ZF2 module which facilitates integration of Disqus widgets",
+    "description": "ZF module which facilitates integration of Disqus widgets",
     "type": "library",
     "license": "MIT",
     "keywords": [
         "disqus",
-        "zf2",
+        "zf",
         "zend",
         "module"
     ],
-    "homepage": "https://github.com/nikolaposa/ZfDisqus",
     "authors": [
         {
             "name": "Nikola Poša",
@@ -17,24 +16,18 @@
             "homepage": "http://www.nikolaposa.in.rs"
         }
     ],
-    "config": {
-        "platform": {
-            "php": "7.0.3"
-        }
-    },
     "require": {
         "php": "^7.0",
         "nikolaposa/disqus-helper": "^2.0",
-        "zendframework/zend-view": "^2.3",
-        "zendframework/zend-servicemanager": "^2.3 || ^3.0.3"
+        "zendframework/zend-servicemanager": "^3.0",
+        "zendframework/zend-view": "^2.7"
     },
     "require-dev": {
-        "zendframework/zend-modulemanager": "^2.3",
-        "zendframework/zend-serializer": "^2.3",
-        "zendframework/zend-log": "^2.3",
-        "zendframework/zend-i18n": "^2.3",
-        "zendframework/zend-test": "^2.3",
-        "phpunit/phpunit": "^4.7"
+        "phpunit/phpunit": "^5.7 || ^6.0",
+        "friendsofphp/php-cs-fixer": "^2.0",
+        "zendframework/zend-modulemanager": "^2.7",
+        "zendframework/zend-mvc": "^3.0",
+        "zendframework/zend-i18n": "^2.7"
     },
     "autoload": {
         "psr-4": { "ZfDisqus\\": "src/" }
@@ -42,9 +35,13 @@
     "autoload-dev": {
         "psr-4": { "ZfDisqus\\Tests\\": "tests/" }
     },
+    "scripts": {
+        "test": "phpunit --colors=always",
+        "cs-fix": "php-cs-fixer fix --config=.php_cs"
+    },
     "extra": {
         "branch-alias": {
-            "dev-master": "3.0.x-dev"
+            "dev-master": "4.0.x-dev"
         }
     }
 }

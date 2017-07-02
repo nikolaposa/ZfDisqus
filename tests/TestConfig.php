@@ -8,10 +8,15 @@
  * located at the package root folder.
  */
 
-declare(strict_types=1);
-
 return [
-    'factories' => [
-        'disqus' => ZfDisqus\View\Helper\Service\DisqusFactory::class,
+    'modules' => [
+        'Zend\Router',
+        'ZfDisqus',
+    ],
+    'module_listener_options' => [
+        'config_glob_paths' => [
+            __DIR__ . '/testing.config.php'
+        ],
+        'module_paths' => [],
     ],
 ];

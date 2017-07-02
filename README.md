@@ -109,5 +109,6 @@ Released under MIT License - see the [License File](LICENSE) for details.
 [link-build]: https://travis-ci.org/nikolaposa/ZfDisqus
 [link-code-coverage]: https://scrutinizer-ci.com/g/nikolaposa/ZfDisqus/code-structure
 [link-code-quality]: https://scrutinizer-ci.com/g/nikolaposa/ZfDisqus
+[link-disqus-helper]: https://github.com/nikolaposa/disqus-helper
 [link-author]: https://github.com/nikolaposa
 [link-contributors]: ../../contributors

@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 ## 4.0.0 - [Unreleased]
 
 ### Added
-- Support for ZF3 Service Manager
+- Full support for ZF3 Service Manager
 
 
 [Unreleased]: https://github.com/nikolaposa/phoundation/compare/3.0.0...HEAD
